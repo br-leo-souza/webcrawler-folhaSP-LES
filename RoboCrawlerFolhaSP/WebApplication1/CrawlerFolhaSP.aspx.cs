@@ -100,19 +100,19 @@ namespace roboCrawlerFolhaSP
 
 			listaArquivos = ExtractString(startDelimiter, listStartPosition, listEndPosition, pagina);
 
-			//do
-			//{
-			//	contador++;
-			//	pagina = AcessarUrl(cookies, URL + contador.ToString());
-			//	listaArquivosAux = ExtractString(startDelimiter, listStartPosition, listEndPosition, pagina);
-			//	listaArquivos.AddRange(listaArquivosAux);
+			do
+			{
+				contador++;
+				pagina = AcessarUrl(cookies, URL + contador.ToString());
+				listaArquivosAux = ExtractString(startDelimiter, listStartPosition, listEndPosition, pagina);
+				listaArquivos.AddRange(listaArquivosAux);
 
-			//	if (pagina.IndexOf("Não há resultados para a busca realizada") != -1)
-			//	{
-			//		pagina = null;
-			//	}
-			//}
-			//while (pagina != null);
+				if (pagina.IndexOf("Não há resultados para a busca realizada") != -1)
+				{
+					pagina = null;
+				}
+			}
+			while (pagina != null);
 
 			foreach (Arquivo arquivo in listaArquivos) {
 				if (null != arquivo)
@@ -121,10 +121,10 @@ namespace roboCrawlerFolhaSP
 					int id = RandomNumber();
 
 					//Path do diretório de cada restaurante
-					string folder = "C:\\crawler-folhasp\\restaurantes\\" + arquivo.titulo;                         //Path de diretório
-					string path = folder + "\\" + arquivo.titulo.Replace(" ", "_") + "_" + id + ".txt";				//Path de cada .txt
-					string path_json = folder + "\\" + arquivo.titulo.Replace(" ", "_") + "_" + id + "_json.txt";   //Path de cada json .txt
-					string path_image = folder + "\\" + arquivo.titulo.Replace(" ", "_") + "_" + id + ".jpg";		//Path de cada imagem
+					string folder = "C:\\crawler-folhasp\\restaurantes\\" + arquivo.titulo;																				//Path de diretório
+					string path = folder + "\\" + arquivo.titulo.Replace(" ", "_") + "_" + id + ".txt";																	//Path de cada .txt
+					string path_json = folder + "\\" + arquivo.titulo.Replace(" ", "_") + "_" + id + "_json.txt";														//Path de cada json .txt
+					string path_image = folder + "\\" + arquivo.titulo.Replace(" ", "_") + "_" + id + arquivo.url_imagem.Substring(arquivo.url_imagem.Length-4);		//Path de cada imagem
 
 					GerarDiretorio(folder);				  //Cria o diretório
 					GerarArquivoTxt(path, arquivo);		  //Método que gera o arquivo .txt
