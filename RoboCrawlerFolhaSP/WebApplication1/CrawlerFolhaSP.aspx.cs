@@ -13,7 +13,6 @@ using System.Threading;
 using System.Data;
 using System.ComponentModel;
 using System.Web.Script.Serialization;
-using Newtonsoft.Json;
 
 namespace roboCrawlerFolhaSP
 {
