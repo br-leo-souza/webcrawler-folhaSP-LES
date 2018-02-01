@@ -97,9 +97,8 @@ public class CrawlerFolhaSP
 
 		do
 		{
-			listaArquivos = new List<Arquivo>();
-
 			contador++;
+			listaArquivos = new List<Arquivo>();
 
 			Console.WriteLine("\n");
 			Console.WriteLine("Acessando página:" + contador.ToString());
@@ -164,8 +163,10 @@ public class CrawlerFolhaSP
 			//Aqui vc vai obter o bloco com cada restaurante 
 			string resultado = page.Substring(viewStateStartPosition, viewStateEndPosition - viewStateStartPosition);
 
-			lista.Add(RetornaParametros(resultado));
-
+			if (resultado.IndexOf("card-list__ads") == -1)
+			{
+				lista.Add(RetornaParametros(resultado));
+			}
 			startDelimiter = viewStateEndPosition;
 			contador++;
 		}
@@ -299,13 +300,20 @@ public class CrawlerFolhaSP
 
 		int startDelimiter = page.IndexOf(nameStartPosition);
 
-		int viewStateValuePosition = page.IndexOf(nameStartPosition, startDelimiter);
+		if (startDelimiter != -1)
+		{
+			int viewStateValuePosition = page.IndexOf(nameStartPosition, startDelimiter);
 
-		int viewStateStartPosition = viewStateValuePosition + nameStartPosition.Length;
-		int viewStateEndPosition = page.IndexOf(nameEndPosition, viewStateStartPosition);
+			int viewStateStartPosition = viewStateValuePosition + nameStartPosition.Length;
+			int viewStateEndPosition = page.IndexOf(nameEndPosition, viewStateStartPosition);
 
-		//Aqui vc vai obter o valor do campo
-		valor = page.Substring(viewStateStartPosition, viewStateEndPosition - viewStateStartPosition);
+			//Aqui vc vai obter o valor do campo
+			valor = page.Substring(viewStateStartPosition, viewStateEndPosition - viewStateStartPosition);
+		}
+		else
+		{
+			valor = "";
+		}
 
 		return valor;
 	}
